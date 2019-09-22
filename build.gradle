@@ -7,6 +7,8 @@ plugins {
 
 group = 'com.examples.games'
 version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11';
+targetCompatibility = '11';
 
 repositories {
     mavenCentral()
@@ -19,3 +21,22 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.4'
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
 }
+
+task installReact(type: Exec) {
+    workingDir 'src/main/reactjs'
+    commandLine 'npm'
+    args = ['install']
+}
+
+task buildReact(type: Exec, dependsOn: installReact) {
+    workingDir 'src/main/reactjs'
+    commandLine 'npm'
+    args = ['run', 'build']
+}
+
+task copyReactResources(type: Copy, dependsOn: buildReact) {
+    from 'src/main/reactjs/build'
+    into 'build/resources/main/public'
+}
+
+processResources.dependsOn copyReactResources

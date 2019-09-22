@@ -19,7 +19,6 @@ public class Game {
 
     public void setRoundResult(RoundResult roundResult) {
         this.roundResult = roundResult;
-        players.forEach(Player::clearMove);
     }
 }
 

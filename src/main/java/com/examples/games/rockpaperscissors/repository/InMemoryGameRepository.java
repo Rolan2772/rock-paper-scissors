@@ -30,6 +30,7 @@ public class InMemoryGameRepository implements GameRepository {
 
     @Override
     public Mono<Game> save(@NotNull Game game) {
-        return Mono.justOrEmpty(games.put(game.getId(), game));
+        games.put(game.getId(), game);
+        return Mono.just(game);
     }
 }
