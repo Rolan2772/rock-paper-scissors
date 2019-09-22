@@ -21,10 +21,14 @@ public class GameEngine {
     }
 
     public Game makeMove(Game game, Player player, Move move) {
-        if (player.getMove() != null) {
-            throw new IllegalStateException("Player already made a move: " + player);
+        if (game.getRoundResult() != null) {
+            game.setRoundResult(null);
+            game.getPlayers().forEach(Player::clearMove);
         }
-        player.setMove(move);
+
+        if (player.getMove() != move) {
+            player.setMove(move);
+        }
         return game;
     }
 

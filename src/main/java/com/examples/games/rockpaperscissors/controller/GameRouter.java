@@ -6,6 +6,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
+import static org.springframework.web.reactive.function.server.RouterFunctions.nest;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
@@ -16,9 +17,9 @@ public class GameRouter {
 
     @Bean
     public RouterFunction<ServerResponse> gameRoute(GameHandler gameHandler) {
-        return route(GET("/start"), gameHandler::createGame)
-                .andNest(path("/game"),
-                        route(POST("/{" + GAME_ID + "}/{" + PLAYER_ID + "}"), gameHandler::handleMove)
-                                .andRoute(GET("/{" + GAME_ID + "}"), gameHandler::findGame));
+        return nest(path("/game"),
+                route(GET("/create"), gameHandler::createGame)
+                        .andRoute(POST("/{" + GAME_ID + "}/{" + PLAYER_ID + "}"), gameHandler::handleMove)
+                        .andRoute(GET("/{" + GAME_ID + "}"), gameHandler::findGame));
     }
 }
