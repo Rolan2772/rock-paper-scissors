@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-function Game(props) {
+export function Game(props) {
 
     const classes = useStyles();
     const [game, setGame] = useState({});
@@ -36,7 +36,6 @@ function Game(props) {
     useEffect(() => {
         async function fetchGame() {
             const game = await gameApiClient.loadGame(params.gameId);
-            console.log(`${JSON.stringify(game)}`)
             setGame(game);
             setMove(game.players[params.playerId - 1].move);
         }

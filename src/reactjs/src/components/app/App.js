@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-function App(props) {
+export function App(props) {
 
     const classes = useStyles();
 
