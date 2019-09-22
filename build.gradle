@@ -1,17 +1,25 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 plugins {
     id 'org.springframework.boot' version '2.1.8.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id "org.sonarqube" version "2.7"
     id 'java'
     id 'idea'
+    id 'jacoco'
 }
 
 group = 'com.examples.games'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11';
-targetCompatibility = '11';
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 repositories {
     mavenCentral()
+}
+
+jacoco {
+    toolVersion = "0.8.2"
 }
 
 dependencies {
@@ -22,16 +30,24 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
 }
 
+def resolveNpm() {
+    String npm = 'npm';
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        npm = 'npm.cmd'
+    }
+    return npm;
+}
+
 task installReact(type: Exec) {
     workingDir 'src/main/reactjs'
-    commandLine 'npm'
-    args = ['install']
+    String npm = resolveNpm();
+    commandLine npm, 'install'
 }
 
 task buildReact(type: Exec, dependsOn: installReact) {
     workingDir 'src/main/reactjs'
-    commandLine 'npm'
-    args = ['run', 'build']
+    String npm = resolveNpm();
+    commandLine npm, 'run', 'build'
 }
 
 task copyReactResources(type: Copy, dependsOn: buildReact) {

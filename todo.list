@@ -1,4 +1,6 @@
 - immutable data objects (copty on update game, player)
+- push game status update
+- game read/write synchronization
 - tests for game routing and controllers
 - tests for react components
 - split Game component to smaller components
