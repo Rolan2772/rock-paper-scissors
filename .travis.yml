@@ -23,4 +23,5 @@ deploy:
   provider: heroku
   api_key:
     secure: $HEROKU_API_KEY
-    app: rolan-rock-paper-scissors
+  app: rolan-rock-paper-scissors
+  skip_cleanup: true
