@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -48,6 +49,41 @@ public class GameEngineTest {
         Player actualPlayer = game.getPlayers().get(0);
         assertEquals(player.getId(), actualPlayer.getId());
         assertEquals(move, actualPlayer.getMove());
+    }
+
+    @Test
+    public void makeSameMove() {
+        Move move = Move.PAPER;
+        Player player = spy(Player.builder().id(PLAYER1_ID).move(move).build());
+        Game game = Game.builder()
+                .id(GAME_ID)
+                .players(List.of(player))
+                .build();
+
+        gameEngine.makeMove(game, player, move);
+
+        verify(player, times(0)).setMove(any());
+    }
+
+    @Test
+    public void makeNextRoundMove() {
+        Move move = Move.PAPER;
+        Player player1 = Player.builder().id(PLAYER1_ID).move(Move.SCISSORS).build();
+        Player player2 = Player.builder().id(PLAYER1_ID).move(Move.SCISSORS).build();
+        Game game = Game.builder()
+                .id(GAME_ID)
+                .players(List.of(player1, player2))
+                .roundResult(RoundResult.builder().isDraw(true).build())
+                .build();
+
+        Game actualGame = gameEngine.makeMove(game, player1, move);
+
+        assertEquals(game.getId(), actualGame.getId());
+        assertNull(game.getRoundResult());
+        Player actualPlayer1 = game.getPlayers().get(0);
+        assertEquals(move, actualPlayer1.getMove());
+        Player actualPlayer2 = game.getPlayers().get(1);
+        assertNull(actualPlayer2.getMove());
     }
 
     @Test

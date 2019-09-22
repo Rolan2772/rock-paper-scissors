@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const backendUrl = () => {
-    return 'http://localhost:8080';
+    return process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : '';
 };
 
 const createGame = () => {

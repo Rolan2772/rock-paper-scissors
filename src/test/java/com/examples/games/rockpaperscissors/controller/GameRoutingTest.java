@@ -20,13 +20,13 @@ public class GameRoutingTest {
     private WebTestClient webTestClient;
 
     @Test
-    public void start() {
+    public void create() {
         webTestClient
-                .get().uri("/start")
-                .accept(MediaType.APPLICATION_JSON)
+                .get().uri("/game/create")
                 .exchange()
-                .expectStatus().isTemporaryRedirect()
-                .expectHeader().value("Location", s -> s.startsWith("/game/"));
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(String.class);
     }
 
     @Ignore

@@ -42,7 +42,7 @@ function Game(props) {
         }
 
         fetchGame();
-    }, []);
+    }, [props.match.params]);
 
     function makeMove(event, move) {
         if (move) {

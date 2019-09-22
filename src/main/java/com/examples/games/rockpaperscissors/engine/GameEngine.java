@@ -22,6 +22,7 @@ public class GameEngine {
 
     public Game makeMove(Game game, Player player, Move move) {
         if (game.getRoundResult() != null) {
+            log.trace("Removing game {} round results.", game);
             game.setRoundResult(null);
             game.getPlayers().forEach(Player::clearMove);
         }
@@ -34,7 +35,7 @@ public class GameEngine {
 
     public Game evaluateRound(Game game) {
         if (isRoundComplete(game)) {
-            log.info("Evaluating game {} round.", game);
+            log.trace("Evaluating game {} round.", game);
             Player player1 = game.getPlayers().get(0);
             Player player2 = game.getPlayers().get(1);
             game.setRoundResult(gameRules.evaluateRound(player1, player2));

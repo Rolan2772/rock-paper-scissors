@@ -12,5 +12,4 @@ public class RockPaperScissorsApplicationTests {
     @Test
     public void contextLoads() {
     }
-
 }

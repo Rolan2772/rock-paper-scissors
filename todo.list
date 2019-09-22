@@ -1,0 +1,8 @@
+- immutable data objects (copty on update game, player)
+- tests for game routing and controllers
+- tests for react components
+- split Game component to smaller components
+- exception management client and server
+- ui errors box
+- e2e tests for app
+- configure local deployment in the same server with hot reload of reactjs
