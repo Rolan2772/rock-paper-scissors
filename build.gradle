@@ -30,24 +30,24 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
 }
 
-def resolveNpm() {
-    String npm = 'npm'
-    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        npm = 'npm.cmd'
-    }
-    return npm
-}
-
 task installReact(type: Exec) {
     workingDir 'src/main/reactjs'
-    String npm = resolveNpm()
-    commandLine npm, 'install'
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'npm.cmd', 'install'
+    } else {
+        commandLine 'npm'
+        args = ["install"]
+    }
 }
 
 task buildReact(type: Exec, dependsOn: installReact) {
     workingDir 'src/main/reactjs'
-    String npm = resolveNpm()
-    commandLine npm, 'run', 'build'
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'npm.cmd', 'run', 'build'
+    } else {
+        commandLine 'npm'
+        args = ["run", "build"]
+    }
 }
 
 task copyReactResources(type: Copy, dependsOn: buildReact) {
