@@ -1,4 +1,4 @@
-- immutable data objects (copty on update game, player)
+- immutable data objects (copy domains objects on update)
 - push game status update
 - game read/write synchronization
 - tests for game routing and controllers
